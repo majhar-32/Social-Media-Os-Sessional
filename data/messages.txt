@@ -1,0 +1,6 @@
+1|1|2|majhar||2026-03-25 23:24:03
+2|1|2|majhar|hello sojib|2026-03-25 23:24:52
+3|2|1|sojib|hello majhar|2026-03-25 23:25:35
+4|1|2|majhar|hall a jabi kobe?|2026-03-25 23:25:48
+5|2|1|sojib|friday|2026-03-25 23:26:07
+6|1|2|majhar|ok|2026-03-25 23:26:10

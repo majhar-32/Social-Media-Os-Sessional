@@ -1,0 +1,13 @@
+# Temporary working files
+data/tmp_*.txt
+data/temp*.txt
+
+# Live session FIFO and PID tracking files
+data/.chat_fifo_*
+data/.tail_*
+data/.reader_*
+data/.fifo_*
+
+# Runtime state files (reset on each run)
+data/active_chats.txt
+data/watcher_pids.txt
