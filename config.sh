@@ -12,7 +12,7 @@ LIKES_FILE="$DATA_DIR/likes.txt"
 COMMENTS_FILE="$DATA_DIR/comments.txt"
 MESSAGES_FILE="$DATA_DIR/messages.txt"
 INBOX_STATUS_FILE="$DATA_DIR/inbox_status.txt"
-NOTIFICATIONS_FILE="$DATA_DIR/notifications.txt"
+
 
 USER_ID_COUNTER="$COUNTER_DIR/user_id.txt"
 POST_ID_COUNTER="$COUNTER_DIR/post_id.txt"

@@ -82,10 +82,6 @@ do
         fi
 
         echo "$post_id|$CURRENT_USER_ID" >> "$LIKES_FILE"
-
-        if [ "$owner_id" != "$CURRENT_USER_ID" ]; then
-            echo "$owner_id|$CURRENT_USERNAME liked your post" >> "$NOTIFICATIONS_FILE"
-        fi
     fi
 
     if [ "$option" = "2" ]; then
@@ -99,10 +95,6 @@ do
 
         read -p "Write comment: " comment
         echo "$post_id|$CURRENT_USER_ID|$CURRENT_USERNAME|$comment" >> "$COMMENTS_FILE"
-
-        if [ "$owner_id" != "$CURRENT_USER_ID" ]; then
-            echo "$owner_id|$CURRENT_USERNAME commented on your post" >> "$NOTIFICATIONS_FILE"
-        fi
     fi
 
     if [ "$option" = "3" ]; then

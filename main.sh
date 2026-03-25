@@ -27,9 +27,6 @@ do
 
         if [ $? -eq 0 ]; then
 
-            echo
-            echo "=== Notifications ==="
-            grep "^$CURRENT_USER_ID|" "$NOTIFICATIONS_FILE" | cut -d '|' -f2
 
             while true
             do

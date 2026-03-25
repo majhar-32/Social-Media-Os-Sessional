@@ -1,2 +1,8 @@
-1|1|majhar|hello social media|1774445693
-2|1|majhar|hello post2|1774447880
+1|1|alice|Just joined this platform! Excited to connect with everyone 👋|1774100000
+2|2|bob|Morning coffee and coding session ☕ Best way to start the day!|1774150000
+3|3|charlie|Just finished a 10km run! Feeling great 💪|1774200000
+4|4|diana|Baked homemade chocolate cookies today 🍪 Recipe coming soon!|1774250000
+5|1|alice|Had an amazing dinner with friends last night 🍕|1774320000
+6|2|bob|Reading Clean Code by Robert Martin — highly recommend to every developer!|1774350000
+7|3|charlie|The weather is perfect for a walk today ☀️|1774380000
+8|4|diana|Started learning guitar 🎸 Day 1 — fingers hurt already but loving it!|1774420000

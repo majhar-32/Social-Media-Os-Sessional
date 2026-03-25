@@ -15,7 +15,6 @@ This is a **terminal-based social media application** written purely in **Bash s
 - 👥 Follow other users
 - 💬 **Live Real-Time Chat** between two terminals
 - 📋 Conversation List
-- 🔔 Notifications (likes, comments, follows)
 - 👤 Profile view (posts, followers, following count)
 
 All data is stored in **plain `.txt` files** using `|` as a delimiter — no external dependencies required.
@@ -24,8 +23,8 @@ All data is stored in **plain `.txt` files** using `|` as a delimiter — no ext
 
 ## ⚙️ Requirements
 
-| Tool | Check |
-|------|-------|
+| Tool | Check Command |
+|------|--------------|
 | `bash` | `bash --version` |
 | `awk` | Built-in on macOS/Linux |
 | `grep` | Built-in |
@@ -84,8 +83,7 @@ social_media/
 │   ├── follows.txt      ← Follow relationships
 │   ├── likes.txt        ← Who liked which post
 │   ├── comments.txt     ← Comments on posts
-│   ├── messages.txt     ← All chat messages
-│   └── notifications.txt← Like/comment notifications
+│   └── messages.txt     ← All chat messages
 │
 └── counters/
     ├── user_id.txt      ← Auto-increment user ID
@@ -108,7 +106,31 @@ All data is stored as pipe-delimited (`|`) plain text.
 | `likes.txt` | `post_id \| user_id` |
 | `comments.txt` | `post_id \| user_id \| username \| comment` |
 | `messages.txt` | `msg_id \| sender_id \| receiver_id \| sendername \| message \| datetime` |
-| `notifications.txt` | `user_id \| notification_text` |
+
+---
+
+## 👥 Sample Data
+
+The project comes with pre-loaded sample data so you can explore all features immediately.
+
+**Test Accounts:**
+
+| Username | Password |
+|----------|----------|
+| `alice`   | `alice123` |
+| `bob`     | `bob123`   |
+| `charlie` | `charlie123` |
+| `diana`   | `diana123`   |
+
+**Pre-loaded relationships:**
+
+| Relationship | Details |
+|---|---|
+| Follows | alice→bob, alice→charlie, bob→diana, charlie→alice, charlie→bob, diana→bob |
+| Posts | 2 posts per user (8 total) |
+| Likes | Posts have 2–3 likes each (no self-likes) |
+| Comments | 7 comments spread across posts (no self-comments) |
+| Messages | alice↔bob conversation, alice↔charlie conversation |
 
 ---
 
@@ -122,13 +144,13 @@ All data is stored as pipe-delimited (`|`) plain text.
 Choose option: 1
 
 === Register ===
-Enter username: alice
+Enter username: yourname
 Enter password: ****
 Confirm password: ****
 Registration successful
 ```
 
-> Passwords are stored as plain text (this is a sessional project, not production 😄).
+> Or just use one of the sample accounts above to get started instantly.
 
 ---
 
@@ -141,9 +163,6 @@ Choose option: 2
 Username: alice
 Password: ****
 Login successful
-
-=== Notifications ===
-(any pending notifications shown here)
 
 ===== Dashboard (alice) =====
 1. Create Post
@@ -178,10 +197,16 @@ Choose option: 2
 === Your Feed ===
 
 1)
+User: bob
+Post: Morning coffee and coding session ☕ Best way to start the day!
+Likes: 2
+Comments: 1
+
+2)
 User: alice
-Post: Hello everyone! This is my first post.
-Likes: 0
-Comments: 0
+Post: Just joined this platform! Excited to connect with everyone 👋
+Likes: 2
+Comments: 2
 
 1 Like
 2 Comment
@@ -208,10 +233,10 @@ Choose option: 3
 Enter post number: 1
 
 === Comments ===
-bob: Great post!
+alice: Same here, coffee is absolutely essential ☕
 ```
 
-> ⚠️ You can only like a post **once**. Liking your own post won't send a notification.
+> ⚠️ You can only like a post **once**. You cannot like your own posts.
 
 ---
 
@@ -221,13 +246,12 @@ bob: Great post!
 Choose option: 4
 
 === Follow User ===
-Enter username to follow: bob
+Enter username to follow: diana
 Followed successfully
 ```
 
+> After following, diana's posts will appear in your feed.
 > You cannot follow yourself or follow the same person twice.
-
-After following, **bob's posts will appear in your feed**.
 
 ---
 
@@ -238,20 +262,20 @@ Choose option: 3
 
 === Profile ===
 Username: alice
-Total Posts: 3
-Followers: 1
+Total Posts: 2
+Followers: 2
 Following: 2
 
 === Recent Posts ===
-- Hello everyone! This is my first post.
-- What a great day!
+- Had an amazing dinner with friends last night 🍕
+- Just joined this platform! Excited to connect with everyone 👋
 ```
 
 ---
 
 ### 7️⃣ 💬 Messages (Live Chat)
 
-This is the most advanced feature. Open **Messages** from the dashboard:
+Open Messages from the dashboard:
 
 ```
 Choose option: 5
@@ -266,18 +290,31 @@ Choose option: 5
 
 #### 💬 Live Chat — How It Works
 
-**Scenario A: Both users open live chat at the same time**
+**Step 1 — Open two terminals** and login with different accounts:
 
-- **Terminal 1** (alice logs in, opens live chat with bob):
+```bash
+# Terminal 1
+bash main.sh   →  login as alice
+
+# Terminal 2
+bash main.sh   →  login as bob
+```
+
+**Step 2 — Both go to:** Messages → Live Chat
+
+**Terminal 1 (alice):**
 ```
 Enter username to chat with: bob
 
 === Chat with bob ===
+alice: Hey bob! How are you doing?        ← existing history shown
+bob: Hi alice! I am great...
+...
 [Live] bob is online — messages appear in real time
 (Type /exit to leave chat)
 ```
 
-- **Terminal 2** (bob logs in, opens live chat with alice):
+**Terminal 2 (bob):**
 ```
 Enter username to chat with: alice
 
@@ -286,52 +323,35 @@ Enter username to chat with: alice
 (Type /exit to leave chat)
 ```
 
-Now both can type and messages appear on each other's screen **instantly**.
+**Step 3 — Start typing!** Messages appear on the other screen instantly 🎉
 
 ---
 
-**Scenario B: One user opens chat first (other is offline)**
+#### 🔄 What If One User Is Not Online Yet?
 
-- **Terminal 1** (alice opens chat, bob not online yet):
+- **Terminal 1 (alice)** opens chat while bob is offline:
 ```
 [Offline] bob is not online — messages will be saved as history
           Waiting for bob to come online...
-(Type /exit to leave chat)
 ```
 
-Alice can still **send messages** — they're saved.
-
-- When **bob logs in** and opens live chat with alice:
-```
-(bob's terminal)
-[Live] alice is online — messages appear in real time
-```
-
-- And **alice's terminal automatically updates:**
+- Alice can still type and send messages — they are saved.
+- When **Terminal 2 (bob)** opens live chat with alice, alice's terminal **auto-updates:**
 ```
 >>> [Live] bob just came online! You are now in real-time chat.
 ```
 
-Both sides are now live — **no need to restart chat**. ✅
-
----
-
-**To exit live chat:**
-```
-/exit
-```
-
-> ⚠️ Always type `/exit` to leave. Pressing `Ctrl+C` also works safely — a trap handles cleanup.
+✅ No need to restart. It detects online status **automatically every 1 second**.
 
 ---
 
 #### 📋 Conversation List
 
-Shows all users you've chatted with (only **their names**, not your own):
+Shows all usernames you have chatted with (only their names, never your own):
 
 ```
 === Messages ===
-2. Conversation List
+Choose option: 2
 
 === Your Conversations ===
 bob
@@ -340,96 +360,54 @@ charlie
 
 ---
 
-### 8️⃣ 🔔 Notifications
-
-Notifications appear **automatically right after login**:
+#### ⏹️ Exiting Live Chat
 
 ```
-=== Notifications ===
-bob liked your post
-charlie commented on your post
+/exit
 ```
+
+> Typing `/exit` or pressing `Ctrl+C` both clean up properly — no orphan processes left behind.
 
 ---
 
-## 🧪 Quick Test (Two Terminals)
+## 🏗️ Architecture Notes (For OS Concepts)
 
-To test live chat properly, open **two terminal windows**:
+### Why No Database?
+All data uses **pipe-delimited `.txt` files**. This demonstrates fundamental OS concepts in action:
 
-```bash
-# Terminal 1
-cd Social-Media-Os-Sessional
-bash main.sh
-# → Login as: alice
-
-# Terminal 2
-cd Social-Media-Os-Sessional
-bash main.sh
-# → Login as: bob
-```
-
-Then in both:
-- Go to **Messages → Live Chat**
-- Terminal 1: type `bob` as the user to chat with
-- Terminal 2: type `alice` as the user to chat with
-- Start typing — messages flow **both ways in real time** 🎉
-
----
-
-## 🏗️ Architecture Notes (For OS Sessional)
-
-### Why no database?
-All data is stored in **pipe-delimited `.txt` files**. This demonstrates fundamental OS concepts:
-- **File I/O** for persistent storage
-- **Process management** (`$$`, `$!`, background jobs)
-- **Inter-Process Communication** via **named pipes (FIFOs)**
-- **Signal handling** (`trap`, `SIGINT`, `SIGTERM`)
+| Concept | Where Used |
+|---|---|
+| **File I/O** | All data storage (users, posts, messages) |
+| **Process Management** | `$$`, `$!`, background jobs (`&`) |
+| **Named Pipes (FIFOs)** | Live chat message streaming |
+| **Signal Handling** | `trap` on `SIGINT`/`SIGTERM` for clean exit |
+| **IPC** | `active_chats.txt` + FIFO for process coordination |
+| **Background Processes** | Online monitor polls every 1s |
 
 ### How Live Chat Works Internally
 
 ```
 User A (Terminal 1)                    User B (Terminal 2)
         │                                      │
-        ▼                                      ▼
    enter_active_chat()              enter_active_chat()
         │                                      │
-        ▼                                      ▼
-  is_in_active_chat()?              is_in_active_chat()?
-    YES → start watcher               YES → start watcher
+   is_in_active_chat()?              is_in_active_chat()?
+    YES → start FIFO watcher           YES → start FIFO watcher
         │                                      │
-        ▼                                      ▼
-  tail -f messages.txt               tail -f messages.txt
-        │  (writes to FIFO)                   │  (writes to FIFO)
-        ▼                                      ▼
-  while-reader (reads FIFO)          while-reader (reads FIFO)
-        │  (prints to terminal)               │  (prints to terminal)
-        ▼                                      ▼
-   Terminal 1 screen                   Terminal 2 screen
+   tail -f messages.txt ──► FIFO   tail -f messages.txt ──► FIFO
+        │                                      │
+   while-reader (prints to T1)      while-reader (prints to T2)
 ```
 
-**If one user is offline** → a background **monitor** polls `active_chats.txt` every 1 second. When the other user comes online, the watcher is started dynamically.
+If one user is **offline** when the other opens chat:
+- A **background monitor** polls `active_chats.txt` every `1s`
+- When the other user comes online → FIFO watcher starts dynamically
+- Both terminals switch to `[Live]` mode automatically
 
-### Session Tracking Files (auto-managed, not committed)
+### Session Tracking Files *(auto-managed, not committed to git)*
+
 | File | Purpose |
 |------|---------|
-| `data/active_chats.txt` | Tracks who is currently in live chat (with live PID) |
-| `data/watcher_pids.txt` | Tracks tail & reader PIDs for clean process kill |
+| `data/active_chats.txt` | Who is currently in live chat (with live shell PID) |
+| `data/watcher_pids.txt` | tail & reader PIDs for precise process kill |
 | `data/.chat_fifo_<PID>` | Named pipe for each live chat session |
-
----
-
-## 👨‍💻 Contributors
-
-| Name | Role |
-|------|------|
-| Majharul Islam | Developer |
-
----
-
-## 📄 License
-
-This project is built for **Academic / OS Sessional** purposes.
-
----
-
-> *"Built with nothing but Bash, pipes, and determination."* 🐚
