@@ -485,3 +485,19 @@ Prints to User B's terminal instantly
 | 🔔 No notifications | Notification feature intentionally removed to keep the app clean |
 | 📷 No media support | Text only — no image, video, or file sharing |
 | 💤 No offline message alert | If you're not in live chat, you won't know someone messaged you until you open Messages |
+
+---
+
+## 🚀 Future Improvements (Ideas for Teammates)
+
+If you want to extend this project, here are some ideas:
+- 🔐 **Password Hashing:** Use `openssl` or `sha256sum` to store passwords securely.
+- 🖼️ **ASCII Art Support:** Allow users to "upload" ASCII art as posts.
+- 🔍 **Search Feature:** Add a way to search for users or posts by keywords.
+- 📅 **Post Timestamps:** Convert Unix timestamps to human-readable dates in the feed.
+- 🚫 **Block User:** Implement a blocking system to prevent unwanted messages.
+- 📊 **Admin Dashboard:** A special mode to view system-wide stats (total users, most liked post, etc.).
+
+---
+
+> *"Built with nothing but Bash, pipes, and determination."* 🐚
