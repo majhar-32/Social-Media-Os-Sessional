@@ -488,7 +488,83 @@ Prints to User B's terminal instantly
 
 ---
 
-## 🚀 Future Improvements (Ideas for Teammates)
+## � Team Division (6 Members)
+
+Each member owns specific modules so individual contributions are clearly identifiable.
+
+---
+
+### 👤 Member 1 — Project Lead & System Architecture
+**Files:** `main.sh` · `config.sh` · `utils.sh` · `.gitignore` · GitHub Setup
+
+| Responsibility | Details |
+|---|---|
+| `main.sh` | App entry point, main menu loop, dashboard routing |
+| `config.sh` | Centralized file path configuration for the entire system |
+| `utils.sh` | Shared helpers — `generate_id()`, `username_exists()`, `get_user_id()` |
+| GitHub | Repository creation, git init, branch management, deployment |
+
+---
+
+### 👤 Member 2 — Authentication System
+**Files:** `auth.sh` · `data/users.txt` · `counters/user_id.txt`
+
+| Responsibility | Details |
+|---|---|
+| `register_user()` | New user registration with username uniqueness check and password confirmation |
+| `login_user()` | Credential validation, session variable setup (`CURRENT_USER_ID`, `CURRENT_USERNAME`) |
+| Data Design | `users.txt` format: `id\|username\|password` |
+
+---
+
+### 👤 Member 3 — Post & Feed System
+**Files:** `posts.sh` · `feed.sh` (display) · `data/posts.txt` · `counters/post_id.txt`
+
+| Responsibility | Details |
+|---|---|
+| `create_post()` | Write post, generate ID, save with Unix timestamp to `posts.txt` |
+| `view_feed()` | Show own posts + posts of followed users, sorted newest first |
+| Data Design | `posts.txt` format: `id\|user_id\|username\|content\|timestamp` |
+
+---
+
+### 👤 Member 4 — Social Interactions (Like, Comment, Follow)
+**Files:** `follow.sh` · `feed.sh` (like/comment) · `data/follows.txt` · `data/likes.txt` · `data/comments.txt` · `counters/comment_id.txt`
+
+| Responsibility | Details |
+|---|---|
+| `follow_user()` | Follow other users with duplicate and self-follow prevention |
+| Like logic | Like a post from feed, duplicate like prevention |
+| Comment logic | Write and view comments on posts |
+| Data Design | `follows.txt`, `likes.txt`, `comments.txt` formats and integrity rules |
+
+---
+
+### 👤 Member 5 — User Profile & Sample Data
+**Files:** `profile.sh` · all `data/*.txt` sample files · `counters/`
+
+| Responsibility | Details |
+|---|---|
+| `view_profile()` | Display username, total posts, followers, following count, recent posts |
+| Sample Data | 4 users, 8 posts, 13 likes, 7 comments, 9 messages — all with consistent relations |
+| Data Integrity | No self-likes, no self-comments, all foreign key references valid across files |
+
+---
+
+### 👤 Member 6 — Messaging & Live Chat System
+**Files:** `messages.sh` · `data/messages.txt` · `data/active_chats.txt` · `data/watcher_pids.txt` · `counters/message_id.txt`
+
+| Responsibility | Details |
+|---|---|
+| `live_chat()` | Real-time bidirectional chat using named pipe (FIFO) architecture |
+| `_online_monitor()` | Background process that polls every 1s — auto-switches to live mode when other user comes online |
+| `clean_stale_chats()` | Detects dead PIDs in `active_chats.txt`, kills orphaned tail/reader processes |
+| `list_conversations()` | Shows conversation partners (own name excluded) |
+| Process Safety | `trap` for Ctrl+C cleanup, FIFO-based kill so no zombie processes ever leak to other terminals |
+
+---
+
+## �🚀 Future Improvements (Ideas for Teammates)
 
 If you want to extend this project, here are some ideas:
 - 🔐 **Password Hashing:** Use `openssl` or `sha256sum` to store passwords securely.
