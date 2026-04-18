@@ -6,7 +6,8 @@ source posts.sh
 source follow.sh
 source feed.sh
 source messages.sh
-source profile.sh
+source profile_management.sh
+source post_management.sh
 
 while true
 do
@@ -27,7 +28,6 @@ do
 
         if [ $? -eq 0 ]; then
 
-
             while true
             do
                 echo
@@ -37,7 +37,8 @@ do
                 echo "3. Profile"
                 echo "4. Follow User"
                 echo "5. Messages"
-                echo "6. Logout"
+                echo "6. Manage My Posts"
+                echo "7. Logout"
 
                 read -p "Choose option: " dash
 
@@ -62,6 +63,10 @@ do
                 fi
 
                 if [ "$dash" = "6" ]; then
+                    manage_posts
+                fi
+
+                if [ "$dash" = "7" ]; then
                     break
                 fi
             done

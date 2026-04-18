@@ -6,3 +6,7 @@
 6|2|bob|Reading Clean Code by Robert Martin — highly recommend to every developer!|1774350000
 7|3|charlie|The weather is perfect for a walk today ☀️|1774380000
 8|4|diana|Started learning guitar 🎸 Day 1 — fingers hurt already but loving it!|1774420000
+9|5|Majhar|Hello, everyone|1775920081
+10|1|alice|Hello everyone!|1775921627
+11|7|sojib|will you /exit|1775984285
+12|7|sojib|Hello|1775987178
