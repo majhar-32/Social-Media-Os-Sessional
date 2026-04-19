@@ -28,13 +28,15 @@ update_username() {
     fi
 
     # Update users.txt
-    sed -i "s/^$CURRENT_USER_ID|$CURRENT_USERNAME|/$CURRENT_USER_ID|$new_username|/" "$USERS_FILE"
+    sed_inplace "s/^$CURRENT_USER_ID|$CURRENT_USERNAME|/$CURRENT_USER_ID|$new_username|/" "$USERS_FILE"
 
     # Update username in posts.txt (field 3)
-    sed -i "s/^\([^|]*\)|$CURRENT_USER_ID|$CURRENT_USERNAME|/\1|$CURRENT_USER_ID|$new_username|/" "$POSTS_FILE"
+    sed_inplace "s/^\([^|]*\)|$CURRENT_USER_ID|$CURRENT_USERNAME|/\1|$CURRENT_USER_ID|$new_username|/" "$POSTS_FILE"
+
 
     # Update username in comments.txt (field 3)
-    sed -i "s/^\([^|]*\)|$CURRENT_USER_ID|$CURRENT_USERNAME|/\1|$CURRENT_USER_ID|$new_username|/" "$COMMENTS_FILE"
+    sed_inplace "s/^\([^|]*\)|$CURRENT_USER_ID|$CURRENT_USERNAME|/\1|$CURRENT_USER_ID|$new_username|/" "$COMMENTS_FILE"
+
 
     CURRENT_USERNAME="$new_username"
     echo "Username updated to: $CURRENT_USERNAME"
@@ -73,7 +75,8 @@ update_password() {
     fi
 
     # Replace the password field (field 3) for this user
-    sed -i "s/^$CURRENT_USER_ID|$CURRENT_USERNAME|.*/$CURRENT_USER_ID|$CURRENT_USERNAME|$new_pass/" "$USERS_FILE"
+    escaped_pass=$(printf '%s\n' "$new_pass" | sed 's/[[\.*^$()+?{|]/\\&/g; s/\//\\\//g; s/&/\\\&/g')
+sed_inplace "s/^$CURRENT_USER_ID|$CURRENT_USERNAME|.*/$CURRENT_USER_ID|$CURRENT_USERNAME|$escaped_pass/" "$USERS_FILE"
 
     echo "Password updated successfully"
 }
@@ -125,7 +128,7 @@ unfollow_user() {
     selected_name=$(grep "^$selected_id|" "$USERS_FILE" | cut -d '|' -f2)
 
     # Remove the follow record
-    sed -i "/^$CURRENT_USER_ID|$selected_id$/d" "$FOLLOWS_FILE"
+    sed_inplace "/^$CURRENT_USER_ID|$selected_id$/d" "$FOLLOWS_FILE"
 
     echo "Unfollowed $selected_name"
 }

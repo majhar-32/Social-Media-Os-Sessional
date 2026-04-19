@@ -68,11 +68,13 @@ manage_posts() {
             fi
 
             # Escape any special sed characters in new_content
-            escaped_content=$(echo "$new_content" | sed 's/[\/&]/\\&/g')
+            escaped_content=$(printf '%s\n' "$new_content" | sed 's/[[\.*^$()+?{|]/\\&/g; s/\//\\\//g; s/&/\\\&/g')
+
 
             # posts.txt format: post_id|user_id|username|content|timestamp
             # Replace field 4 (content) only for this post_id line
-            sed -i "s/^\($chosen_post|[^|]*|[^|]*|\)[^|]*|/\1$escaped_content|/" "$POSTS_FILE"
+            sed_inplace "s/^\($chosen_post|[^|]*|[^|]*|\)[^|]*|/\1$escaped_content|/" "$POSTS_FILE"
+
 
             echo "Post updated"
         fi
@@ -97,13 +99,16 @@ manage_posts() {
             fi
 
             # Remove post from posts.txt
-            sed -i "/^$chosen_post|/d" "$POSTS_FILE"
+            sed_inplace "/^$chosen_post|/d" "$POSTS_FILE"
+
 
             # Remove associated likes
-            sed -i "/^$chosen_post|/d" "$LIKES_FILE"
+            sed_inplace "/^$chosen_post|/d" "$LIKES_FILE"
+
 
             # Remove associated comments
-            sed -i "/^$chosen_post|/d" "$COMMENTS_FILE"
+            sed_inplace "/^$chosen_post|/d" "$COMMENTS_FILE"
+
 
             echo "Post deleted"
         fi

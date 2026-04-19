@@ -12,10 +12,19 @@ generate_id() {
 
 username_exists() {
     username=$1
-    grep -q "^.*|$username|" "$USERS_FILE"
+    grep -q "^[^|]*|$username|" "$USERS_FILE"
 }
 
 get_user_id() {
     username=$1
-    grep "|$username|" "$USERS_FILE" | cut -d '|' -f1
+    grep "^[^|]*|$username|" "$USERS_FILE" | cut -d '|' -f1
+}
+
+# Portable in-place sed that works on both Linux and macOS
+sed_inplace() {
+    local expression="$1"
+    local file="$2"
+    local tmpfile
+    tmpfile=$(mktemp)
+    sed "$expression" "$file" > "$tmpfile" && mv "$tmpfile" "$file"
 }

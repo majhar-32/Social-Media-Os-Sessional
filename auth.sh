@@ -39,7 +39,7 @@ login_user() {
     read -s -p "Password: " password
     echo
 
-    user_record=$(grep "|$username|" "$USERS_FILE")
+    user_record=$(grep "^[^|]*|$username|" "$USERS_FILE")
 
     if [ -z "$user_record" ]; then
         echo "User not found"
